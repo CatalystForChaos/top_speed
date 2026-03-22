@@ -1,3 +1,4 @@
+using System;
 using TopSpeed.Physics.Powertrain;
 using TopSpeed.Physics.Torque;
 using Xunit;
@@ -52,14 +53,56 @@ namespace TopSpeed.Shared.Tests.Physics
             Assert.True(decelKph > 0f);
         }
 
+        // SAE hp: P[hp] = T[N·m] × n[rpm] × 2π / (60 × 745.69987) ≈ T × n / 7120.8
         [Fact]
-        public void PowertrainCalculator_ComputesHorsepower()
+        public void PowertrainCalculator_ComputesHorsepower_UsingSaeFormula()
         {
             var horsepower = Calculator.Horsepower(400f, 6000f);
-            Assert.InRange(horsepower, 336f, 338f);
+            // 400 × 6000 / 7120.8 ≈ 337.1 hp
+            Assert.InRange(horsepower, 336.5f, 337.5f);
         }
 
-        private static Config BuildConfiguration()
+        // Engine friction torque must be subtracted before wheel torque is calculated.
+        [Fact]
+        public void DriveAccel_IsReducedBy_EngineFriction()
+        {
+            var noFriction = BuildConfigurationWithFriction(0f);
+            var withFriction = BuildConfigurationWithFriction(80f);
+
+            var accelNoFriction = Calculator.DriveAccel(
+                noFriction, gear: 1, speedMps: 5f,
+                throttle: 0.5f, surfaceTractionModifier: 1f, longitudinalGripFactor: 1f);
+
+            var accelWithFriction = Calculator.DriveAccel(
+                withFriction, gear: 1, speedMps: 5f,
+                throttle: 0.5f, surfaceTractionModifier: 1f, longitudinalGripFactor: 1f);
+
+            Assert.True(accelNoFriction > accelWithFriction,
+                "Higher engine friction torque must reduce drive acceleration.");
+        }
+
+        // Rolling resistance must increase with speed (ISO 18164 speed correction).
+        [Fact]
+        public void ResistiveForce_RollingResistance_IncreasesWithSpeed()
+        {
+            var config = BuildConfiguration();
+
+            // At standstill: only rolling resistance (drag = 0).
+            var forceAtStop = Calculator.ResistiveForce(config, 0f);
+            var expectedStaticRolling = config.RollingResistanceCoefficient * config.MassKg * 9.80665f;
+            Assert.InRange(forceAtStop, expectedStaticRolling * 0.99f, expectedStaticRolling * 1.01f);
+
+            // At 30 m/s the rolling component must be larger than the static value.
+            var forceAt30 = Calculator.ResistiveForce(config, 30f);
+            var dragAt30 = 0.5f * 1.225f * config.DragCoefficient * config.FrontalAreaM2 * 30f * 30f;
+            var rollingAt30 = forceAt30 - dragAt30;
+            Assert.True(rollingAt30 > expectedStaticRolling,
+                "Rolling resistance must be higher at speed than at standstill.");
+        }
+
+        private static Config BuildConfiguration() => BuildConfigurationWithFriction(20f);
+
+        private static Config BuildConfigurationWithFriction(float engineFrictionTorqueNm)
         {
             var torqueCurve = CurveFactory.FromLegacy(
                 idleRpm: 900f,
@@ -92,7 +135,7 @@ namespace TopSpeed.Shared.Tests.Physics
                 reversePowerFactor: 0.55f,
                 reverseGearRatio: 3.2f,
                 engineInertiaKgm2: 0.24f,
-                engineFrictionTorqueNm: 20f,
+                engineFrictionTorqueNm: engineFrictionTorqueNm,
                 drivelineCouplingRate: 12f,
                 gears: 6,
                 gearRatios: new[] { 3.5f, 2.2f, 1.5f, 1.2f, 1.0f, 0.85f },
@@ -100,6 +143,3 @@ namespace TopSpeed.Shared.Tests.Physics
         }
     }
 }
-
-
-

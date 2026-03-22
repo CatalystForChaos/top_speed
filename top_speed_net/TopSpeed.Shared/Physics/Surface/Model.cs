@@ -25,6 +25,9 @@ namespace TopSpeed.Physics.Surface
                     deceleration = (deceleration * 3f) / 2f;
                     break;
                 case TrackSurface.Snow:
+                    // Snow has poor traction for both acceleration and braking.
+                    // Traction grip on snow is roughly half that of dry asphalt.
+                    traction *= 0.5f;
                     deceleration *= 0.5f;
                     lateralMultiplier = 1.44f;
                     break;

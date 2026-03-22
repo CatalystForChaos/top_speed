@@ -51,7 +51,8 @@ namespace TopSpeed.Physics.Powertrain
         {
             if (rpm <= 0f || torqueNm <= 0f)
                 return 0f;
-            return (torqueNm * rpm) / 7127f;
+            // SAE horsepower: P[hp] = T[N·m] × n[rpm] × 2π / (60 × 745.69987 W/hp) ≈ T × n / 7120.8
+            return (torqueNm * rpm) / 7120.8f;
         }
 
         public static float DriveAccel(
@@ -142,7 +143,10 @@ namespace TopSpeed.Physics.Powertrain
                 throw new ArgumentNullException(nameof(config));
 
             var dragForce = 0.5f * AirDensityKgPerM3 * config.DragCoefficient * config.FrontalAreaM2 * speedMps * speedMps;
-            var rollingForce = config.RollingResistanceCoefficient * config.MassKg * Gravity;
+            // Rolling resistance increases with speed (ISO 18164 approximation):
+            // Crr_eff = Crr0 * (1 + 0.0095 * v[m/s])
+            var rollingSpeedFactor = 1f + (0.0095f * Math.Abs(speedMps));
+            var rollingForce = config.RollingResistanceCoefficient * config.MassKg * Gravity * rollingSpeedFactor;
             return dragForce + rollingForce;
         }
 
@@ -163,7 +167,9 @@ namespace TopSpeed.Physics.Powertrain
                 return 0f;
 
             var driveRpm = DriveRpm(config, gear, speedMps, clampedThrottle, inReverse);
-            var engineTorque = EngineTorque(config, driveRpm) * clampedThrottle * config.PowerFactor;
+            // Subtract internal engine friction before torque reaches the drivetrain.
+            var rawTorque = EngineTorque(config, driveRpm) * clampedThrottle * config.PowerFactor;
+            var engineTorque = Math.Max(0f, rawTorque - config.EngineFrictionTorqueNm);
             var ratio = inReverse ? config.ReverseGearRatio : config.GetGearRatio(gear);
             var wheelTorque = engineTorque * ratio * config.FinalDriveRatio * config.DrivetrainEfficiency;
             var wheelForce = wheelTorque / config.WheelRadiusM;
