@@ -13,9 +13,11 @@ namespace TopSpeed.Vehicles
         private static readonly float[] AventadorRatios = { 3.91f, 2.10f, 1.55f, 1.30f, 1.19f, 1.06f, 0.98f };
         private static readonly float[] Bmw3SeriesRatios = { 4.71f, 3.14f, 2.11f, 1.67f, 1.29f, 1.00f, 0.96f, 0.90f };
         private static readonly float[] SprinterRatios = { 4.3772f, 2.8586f, 1.9206f, 1.3684f, 1.0000f, 0.9200f, 0.8500f };
-        private static readonly float[] Zx10rRatios = { 3.10f, 2.35f, 1.20f, 0.85f, 0.62f, 0.48f };
-        private static readonly float[] PanigaleV4Ratios = { 3.00f, 2.25f, 1.16f, 0.82f, 0.60f, 0.46f };
-        private static readonly float[] R1Ratios = { 3.05f, 2.30f, 1.18f, 0.84f, 0.61f, 0.47f };
+        // Corrected: previous values had a ~49% ratio drop from 2nd to 3rd gear.
+        // Real supersport gearboxes use ~25-27% steps between consecutive gears.
+        private static readonly float[] Zx10rRatios = { 3.10f, 2.35f, 1.75f, 1.31f, 0.98f, 0.73f };
+        private static readonly float[] PanigaleV4Ratios = { 3.00f, 2.25f, 1.68f, 1.26f, 0.94f, 0.70f };
+        private static readonly float[] R1Ratios = { 3.05f, 2.30f, 1.72f, 1.29f, 0.97f, 0.72f };
         private static readonly float[] Auto8Upshifts = { 0f, 0f, 0f, 0f, 0.18f, 0.24f, 0.30f, 0.34f };
         private static readonly float[] Auto7Upshifts = { 0f, 0f, 0f, 0f, 0.18f, 0.24f, 0.28f };
         private static readonly float[] Auto6Upshifts = { 0f, 0f, 0f, 0f, 0.20f, 0.26f };
@@ -30,7 +32,7 @@ namespace TopSpeed.Vehicles
                 massKg: 1774f, drivetrainEfficiency: 0.80f, engineBrakingTorqueNm: 652f, tireGripCoefficient: 1.0f,
                 peakTorqueNm: 652f, peakTorqueRpm: 3600f, idleTorqueNm: 652f * 0.3f, redlineTorqueNm: 652f * 0.6f,
                 dragCoefficient: 0.26f, frontalAreaM2: 2.2f, rollingResistanceCoefficient: 0.015f, launchRpm: 2500f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 26f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 3.70f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(285, 35, 20), lateralGripCoefficient: 1.0f, highSpeedStability: 0.24f,
                 wheelbaseM: 2.779f, maxSteerDeg: 35f, widthM: 1.895f, lengthM: 4.689f,
@@ -39,6 +41,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.70f, slipAnglePeakDeg: 8.3f, slipAngleFalloff: 1.20f,
                 turnResponse: 0.96f, massSensitivity: 0.68f, downforceGripGain: 0.09f,
                 cornerStiffnessFront: 1.15f, cornerStiffnessRear: 1.08f, yawInertiaScale: 1.20f, steeringCurve: 1.06f, transientDamping: 1.35f,
+                torqueCurvePreset: "sport_coupe",
                 transmissionPolicy: Policy(5, true, Auto6Upshifts, upshiftRpmFraction: 0.88f)),
 
             new OfficialVehicleSpec(
@@ -49,7 +52,7 @@ namespace TopSpeed.Vehicles
                 massKg: 1450f, drivetrainEfficiency: 0.85f, engineBrakingTorqueNm: 465f, tireGripCoefficient: 1.05f,
                 peakTorqueNm: 465f, peakTorqueRpm: 6250f, idleTorqueNm: 465f * 0.3f, redlineTorqueNm: 465f * 0.6f,
                 dragCoefficient: 0.30f, frontalAreaM2: 2.0f, rollingResistanceCoefficient: 0.015f, launchRpm: 3000f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 22f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 3.97f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(325, 30, 21), lateralGripCoefficient: 1.0f, highSpeedStability: 0.24f,
                 wheelbaseM: 2.456f, maxSteerDeg: 35f, widthM: 1.852f, lengthM: 4.572f,
@@ -58,6 +61,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.71f, slipAnglePeakDeg: 8.0f, slipAngleFalloff: 1.18f,
                 turnResponse: 0.98f, massSensitivity: 0.66f, downforceGripGain: 0.11f,
                 cornerStiffnessFront: 1.20f, cornerStiffnessRear: 1.12f, yawInertiaScale: 1.18f, steeringCurve: 1.05f, transientDamping: 1.35f,
+                torqueCurvePreset: "supercar_na",
                 transmissionPolicy: Policy(5, true, Auto7Upshifts, upshiftRpmFraction: 0.85f)),
 
             new OfficialVehicleSpec(
@@ -68,7 +72,7 @@ namespace TopSpeed.Vehicles
                 massKg: 865f, drivetrainEfficiency: 0.88f, engineBrakingTorqueNm: 102f, tireGripCoefficient: 0.88f,
                 peakTorqueNm: 102f, peakTorqueRpm: 3000f, idleTorqueNm: 102f * 0.3f, redlineTorqueNm: 102f * 0.6f,
                 dragCoefficient: 0.30f, frontalAreaM2: 2.1f, rollingResistanceCoefficient: 0.014f, launchRpm: 1800f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 9f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 3.353f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(195, 45, 16), lateralGripCoefficient: 1.0f, highSpeedStability: 0.28f,
                 wheelbaseM: 2.300f, maxSteerDeg: 35f, widthM: 1.627f, lengthM: 3.546f,
@@ -77,6 +81,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.66f, slipAnglePeakDeg: 9.2f, slipAngleFalloff: 1.35f,
                 turnResponse: 0.72f, massSensitivity: 0.82f, downforceGripGain: 0.01f,
                 cornerStiffnessFront: 0.92f, cornerStiffnessRear: 0.90f, yawInertiaScale: 1.36f, steeringCurve: 1.24f, transientDamping: 2.20f,
+                torqueCurvePreset: "city_compact",
                 transmissionPolicy: Policy(4, true, upshiftRpmFraction: 0.84f)),
 
             new OfficialVehicleSpec(
@@ -87,7 +92,7 @@ namespace TopSpeed.Vehicles
                 massKg: 1265f, drivetrainEfficiency: 0.88f, engineBrakingTorqueNm: 280f, tireGripCoefficient: 0.95f,
                 peakTorqueNm: 280f, peakTorqueRpm: 1250f, idleTorqueNm: 280f * 0.3f, redlineTorqueNm: 280f * 0.6f,
                 dragCoefficient: 0.31f, frontalAreaM2: 2.1f, rollingResistanceCoefficient: 0.014f, launchRpm: 2200f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 16f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 3.59f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(195, 55, 16), lateralGripCoefficient: 1.0f, highSpeedStability: 0.26f,
                 wheelbaseM: 2.494f, maxSteerDeg: 35f, widthM: 1.744f, lengthM: 3.876f,
@@ -96,6 +101,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.69f, slipAnglePeakDeg: 8.8f, slipAngleFalloff: 1.28f,
                 turnResponse: 0.76f, massSensitivity: 0.78f, downforceGripGain: 0.03f,
                 cornerStiffnessFront: 0.98f, cornerStiffnessRear: 0.95f, yawInertiaScale: 1.32f, steeringCurve: 1.20f, transientDamping: 2.05f,
+                torqueCurvePreset: "hot_hatch",
                 transmissionPolicy: Policy(5, true, Auto6Upshifts, upshiftRpmFraction: 0.86f)),
 
             new OfficialVehicleSpec(
@@ -106,7 +112,7 @@ namespace TopSpeed.Vehicles
                 massKg: 1440f, drivetrainEfficiency: 0.85f, engineBrakingTorqueNm: 481f, tireGripCoefficient: 0.90f,
                 peakTorqueNm: 481f, peakTorqueRpm: 3000f, idleTorqueNm: 481f * 0.3f, redlineTorqueNm: 481f * 0.6f,
                 dragCoefficient: 0.40f, frontalAreaM2: 2.5f, rollingResistanceCoefficient: 0.017f, launchRpm: 2000f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 24f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 3.25f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(215, 70, 14), lateralGripCoefficient: 1.0f, highSpeedStability: 0.30f,
                 wheelbaseM: 2.743f, maxSteerDeg: 35f, widthM: 1.811f, lengthM: 4.760f,
@@ -115,6 +121,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.67f, slipAnglePeakDeg: 9.0f, slipAngleFalloff: 1.30f,
                 turnResponse: 0.72f, massSensitivity: 0.80f, downforceGripGain: 0.02f,
                 cornerStiffnessFront: 0.95f, cornerStiffnessRear: 0.90f, yawInertiaScale: 1.42f, steeringCurve: 1.24f, transientDamping: 2.25f,
+                torqueCurvePreset: "muscle_v8",
                 transmissionPolicy: Policy(4, false, upshiftRpmFraction: 0.84f)),
 
             new OfficialVehicleSpec(
@@ -125,7 +132,7 @@ namespace TopSpeed.Vehicles
                 massKg: 1470f, drivetrainEfficiency: 0.88f, engineBrakingTorqueNm: 250f, tireGripCoefficient: 0.90f,
                 peakTorqueNm: 250f, peakTorqueRpm: 3800f, idleTorqueNm: 250f * 0.4f, redlineTorqueNm: 250f * 0.90f,
                 dragCoefficient: 0.27f, frontalAreaM2: 2.2f, rollingResistanceCoefficient: 0.014f, launchRpm: 2000f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 15f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 3.20f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(215, 55, 17), lateralGripCoefficient: 1.0f, highSpeedStability: 0.32f,
                 wheelbaseM: 2.825f, maxSteerDeg: 35f, widthM: 1.839f, lengthM: 4.879f,
@@ -134,6 +141,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.65f, slipAnglePeakDeg: 9.6f, slipAngleFalloff: 1.38f,
                 turnResponse: 0.70f, massSensitivity: 0.86f, downforceGripGain: 0.01f,
                 cornerStiffnessFront: 0.90f, cornerStiffnessRear: 0.86f, yawInertiaScale: 1.46f, steeringCurve: 1.30f, transientDamping: 2.40f,
+                torqueCurvePreset: "family_sedan",
                 transmissionPolicy: Policy(6, true, Auto8Upshifts, upshiftRpmFraction: 0.84f, minUpshiftNetAccelerationMps2: -0.12f)),
 
             new OfficialVehicleSpec(
@@ -144,7 +152,7 @@ namespace TopSpeed.Vehicles
                 massKg: 1640f, drivetrainEfficiency: 0.80f, engineBrakingTorqueNm: 720f, tireGripCoefficient: 1.05f,
                 peakTorqueNm: 720f, peakTorqueRpm: 6200f, idleTorqueNm: 720f * 0.22f, redlineTorqueNm: 720f * 0.58f,
                 dragCoefficient: 0.30f, frontalAreaM2: 2.0f, rollingResistanceCoefficient: 0.015f, launchRpm: 2400f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 32f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 2.86f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(355, 25, 21), lateralGripCoefficient: 1.05f, highSpeedStability: 0.27f,
                 wheelbaseM: 2.700f, maxSteerDeg: 25f, widthM: 2.030f, lengthM: 4.780f,
@@ -153,6 +161,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.66f, slipAnglePeakDeg: 8.5f, slipAngleFalloff: 1.22f,
                 turnResponse: 0.94f, massSensitivity: 0.56f, downforceGripGain: 0.30f,
                 cornerStiffnessFront: 1.18f, cornerStiffnessRear: 1.10f, yawInertiaScale: 1.24f, steeringCurve: 1.05f, transientDamping: 1.40f,
+                torqueCurvePreset: "supercar_na",
                 transmissionPolicy: Policy(5, true, Auto7Upshifts, upshiftRpmFraction: 0.90f)),
 
             new OfficialVehicleSpec(
@@ -172,6 +181,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.68f, slipAnglePeakDeg: 9.0f, slipAngleFalloff: 1.30f,
                 turnResponse: 0.74f, massSensitivity: 0.75f, downforceGripGain: 0.05f,
                 cornerStiffnessFront: 0.98f, cornerStiffnessRear: 0.93f, yawInertiaScale: 1.38f, steeringCurve: 1.24f, transientDamping: 2.10f,
+                torqueCurvePreset: "sport_sedan",
                 transmissionPolicy: Policy(6, true, Auto8Upshifts, upshiftRpmFraction: 0.80f, minUpshiftNetAccelerationMps2: -0.20f)),
 
             new OfficialVehicleSpec(
@@ -182,7 +192,7 @@ namespace TopSpeed.Vehicles
                 massKg: 1970f, drivetrainEfficiency: 0.85f, engineBrakingTorqueNm: 380f, tireGripCoefficient: 0.82f,
                 peakTorqueNm: 440f, peakTorqueRpm: 1400f, idleTorqueNm: 440f * 0.3f, redlineTorqueNm: 440f * 0.6f,
                 dragCoefficient: 0.34f, frontalAreaM2: 2.9f, rollingResistanceCoefficient: 0.018f, launchRpm: 1800f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 30f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 3.923f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(245, 75, 16), lateralGripCoefficient: 0.90f, highSpeedStability: 0.42f,
                 wheelbaseM: 3.658f, maxSteerDeg: 35f, widthM: 2.019f, lengthM: 5.931f,
@@ -191,6 +201,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.54f, slipAnglePeakDeg: 10.8f, slipAngleFalloff: 1.55f,
                 turnResponse: 0.56f, massSensitivity: 0.98f, downforceGripGain: 0.01f,
                 cornerStiffnessFront: 0.74f, cornerStiffnessRear: 0.66f, yawInertiaScale: 1.74f, steeringCurve: 1.32f, transientDamping: 2.90f,
+                torqueCurvePreset: "diesel_truck",
                 transmissionPolicy: Policy(5, true, Auto7Upshifts, upshiftRpmFraction: 0.72f, minUpshiftNetAccelerationMps2: -0.30f)),
 
             new OfficialVehicleSpec(
@@ -201,7 +212,7 @@ namespace TopSpeed.Vehicles
                 massKg: 207f, drivetrainEfficiency: 0.92f, engineBrakingTorqueNm: 114.9f, tireGripCoefficient: 1.10f,
                 peakTorqueNm: 114.9f, peakTorqueRpm: 11500f, idleTorqueNm: 114.9f * 0.3f, redlineTorqueNm: 114.9f * 0.25f,
                 dragCoefficient: 0.68f, frontalAreaM2: 0.66f, rollingResistanceCoefficient: 0.018f, launchRpm: 3900f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 10f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 4.20f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(190, 55, 17), lateralGripCoefficient: 0.76f, highSpeedStability: 0.46f,
                 wheelbaseM: 1.450f, maxSteerDeg: 35f, widthM: 0.749f, lengthM: 2.085f,
@@ -210,6 +221,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.90f, slipAnglePeakDeg: 6.6f, slipAngleFalloff: 1.00f,
                 turnResponse: 0.96f, massSensitivity: 0.96f, downforceGripGain: 0.03f,
                 cornerStiffnessFront: 1.46f, cornerStiffnessRear: 0.96f, yawInertiaScale: 1.08f, steeringCurve: 1.05f, transientDamping: 1.40f,
+                torqueCurvePreset: "supersport_bike",
                 transmissionPolicy: Policy(6, false, upshiftRpmFraction: 0.90f)),
 
             new OfficialVehicleSpec(
@@ -220,7 +232,7 @@ namespace TopSpeed.Vehicles
                 massKg: 191f, drivetrainEfficiency: 0.92f, engineBrakingTorqueNm: 121f, tireGripCoefficient: 1.12f,
                 peakTorqueNm: 121f, peakTorqueRpm: 10000f, idleTorqueNm: 121f * 0.3f, redlineTorqueNm: 121f * 0.25f,
                 dragCoefficient: 0.66f, frontalAreaM2: 0.66f, rollingResistanceCoefficient: 0.018f, launchRpm: 3900f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 10f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 4.95f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(200, 60, 17), lateralGripCoefficient: 0.77f, highSpeedStability: 0.45f,
                 wheelbaseM: 1.469f, maxSteerDeg: 35f, widthM: 0.806f, lengthM: 2.110f,
@@ -229,6 +241,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.90f, slipAnglePeakDeg: 6.7f, slipAngleFalloff: 1.02f,
                 turnResponse: 0.94f, massSensitivity: 0.95f, downforceGripGain: 0.03f,
                 cornerStiffnessFront: 1.42f, cornerStiffnessRear: 0.98f, yawInertiaScale: 1.06f, steeringCurve: 1.06f, transientDamping: 1.38f,
+                torqueCurvePreset: "supersport_bike",
                 transmissionPolicy: Policy(5, true, Auto6Upshifts, upshiftRpmFraction: 0.90f)),
 
             new OfficialVehicleSpec(
@@ -239,7 +252,7 @@ namespace TopSpeed.Vehicles
                 massKg: 201f, drivetrainEfficiency: 0.92f, engineBrakingTorqueNm: 113.3f, tireGripCoefficient: 1.10f,
                 peakTorqueNm: 112.4f, peakTorqueRpm: 11500f, idleTorqueNm: 112.4f * 0.3f, redlineTorqueNm: 112.4f * 0.25f,
                 dragCoefficient: 0.68f, frontalAreaM2: 0.66f, rollingResistanceCoefficient: 0.018f, launchRpm: 3900f,
-                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 20f, drivelineCouplingRate: 12f,
+                engineInertiaKgm2: 0.24f, engineFrictionTorqueNm: 9f, drivelineCouplingRate: 12f,
                 finalDriveRatio: 4.45f, reverseMaxSpeedKph: 35f, reversePowerFactor: 0.55f, reverseGearRatio: 3.2f,
                 tireCircumferenceM: TireCircumferenceM(190, 55, 17), lateralGripCoefficient: 0.75f, highSpeedStability: 0.47f,
                 wheelbaseM: 1.405f, maxSteerDeg: 35f, widthM: 0.690f, lengthM: 2.055f,
@@ -248,6 +261,7 @@ namespace TopSpeed.Vehicles
                 combinedGripPenalty: 0.91f, slipAnglePeakDeg: 6.5f, slipAngleFalloff: 1.01f,
                 turnResponse: 0.95f, massSensitivity: 0.95f, downforceGripGain: 0.03f,
                 cornerStiffnessFront: 1.44f, cornerStiffnessRear: 0.95f, yawInertiaScale: 1.08f, steeringCurve: 1.05f, transientDamping: 1.40f,
+                torqueCurvePreset: "supersport_bike",
                 transmissionPolicy: Policy(5, true, Auto6Upshifts, upshiftRpmFraction: 0.88f))
         };
 
