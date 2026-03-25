@@ -67,6 +67,7 @@ namespace TopSpeed.Data
         public float YawInertiaScale { get; }
         public float SteeringCurve { get; }
         public float TransientDamping { get; }
+        public float CgHeightM { get; }
         public float WidthM { get; }
         public float LengthM { get; }
         public float PowerFactor { get; }
@@ -139,6 +140,7 @@ namespace TopSpeed.Data
             float yawInertiaScale = 1.0f,
             float steeringCurve = 1.0f,
             float transientDamping = 1.0f,
+            float cgHeightM = 0.55f,
             float widthM = 1.8f,
             float lengthM = 4.5f,
             float powerFactor = 0.5f,
@@ -211,6 +213,7 @@ namespace TopSpeed.Data
             YawInertiaScale = yawInertiaScale;
             SteeringCurve = steeringCurve;
             TransientDamping = transientDamping;
+            CgHeightM = cgHeightM > 0f ? cgHeightM : 0.55f;
             WidthM = widthM;
             LengthM = lengthM;
             PowerFactor = powerFactor;
@@ -295,6 +298,7 @@ namespace TopSpeed.Data
                 spec.YawInertiaScale,
                 spec.SteeringCurve,
                 spec.TransientDamping,
+                spec.CgHeightM,
                 spec.WidthM,
                 spec.LengthM,
                 spec.PowerFactor,

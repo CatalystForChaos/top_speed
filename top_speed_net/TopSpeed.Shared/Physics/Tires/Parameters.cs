@@ -25,7 +25,8 @@ namespace TopSpeed.Physics.Tires
             float cornerStiffnessRear,
             float yawInertiaScale,
             float steeringCurve,
-            float transientDamping)
+            float transientDamping,
+            float cgHeightM = 0.55f)
         {
             SteeringResponse = steeringResponse;
             MaxSteerDeg = maxSteerDeg;
@@ -50,6 +51,7 @@ namespace TopSpeed.Physics.Tires
             YawInertiaScale = yawInertiaScale;
             SteeringCurve = steeringCurve;
             TransientDamping = transientDamping;
+            CgHeightM = cgHeightM > 0f ? cgHeightM : 0.55f;
         }
 
         public float SteeringResponse { get; }
@@ -75,5 +77,7 @@ namespace TopSpeed.Physics.Tires
         public float YawInertiaScale { get; }
         public float SteeringCurve { get; }
         public float TransientDamping { get; }
+        /// <summary>Centre-of-gravity height in metres. Used for lateral load transfer calculation.</summary>
+        public float CgHeightM { get; }
     }
 }

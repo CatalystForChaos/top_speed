@@ -50,6 +50,8 @@ namespace TopSpeed.Bots
             {
                 state.Gear = decision.NewGear;
                 state.AutoShiftCooldownSeconds = decision.CooldownSeconds;
+                // Simulate drivetrain torque interruption during the gear change.
+                state.ShiftTransientSeconds = config.ShiftTransientSeconds;
             }
         }
 

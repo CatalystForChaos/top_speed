@@ -130,7 +130,10 @@ namespace TopSpeed.Physics.Powertrain
                 return 0f;
             rpmFactor = Clamp(rpmFactor, 0f, 1f);
 
-            var drivelineTorque = config.EngineBrakingTorqueNm * config.EngineBraking * rpmFactor;
+            // Subtract engine friction before the braking torque reaches the drivetrain,
+            // consistent with how DriveAccelCore handles it during acceleration.
+            var netBrakingTorque = Math.Max(0f, config.EngineBrakingTorqueNm - config.EngineFrictionTorqueNm);
+            var drivelineTorque = netBrakingTorque * config.EngineBraking * rpmFactor;
             var wheelTorque = drivelineTorque * ratio * config.FinalDriveRatio * config.DrivetrainEfficiency;
             var wheelForce = wheelTorque / config.WheelRadiusM;
             var decelMps2 = (wheelForce / config.MassKg) * surfaceDecelerationModifier;

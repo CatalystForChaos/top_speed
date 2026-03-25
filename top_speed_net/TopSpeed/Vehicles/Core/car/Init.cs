@@ -160,6 +160,7 @@ namespace TopSpeed.Vehicles
             _yawInertiaScale = Math.Max(0.5f, Math.Min(2f, SanitizeFinite(definition.YawInertiaScale, 1f)));
             _steeringCurve = Math.Max(0.5f, Math.Min(2f, SanitizeFinite(definition.SteeringCurve, 1f)));
             _transientDamping = Math.Max(0f, Math.Min(6f, SanitizeFinite(definition.TransientDamping, 1.0f)));
+            _cgHeightM = definition.CgHeightM > 0f ? definition.CgHeightM : 0.55f;
             _widthM = Math.Max(0.5f, SanitizeFinite(definition.WidthM, 0.5f));
             _lengthM = Math.Max(0.5f, SanitizeFinite(definition.LengthM, 0.5f));
             _idleFreq = definition.IdleFreq;

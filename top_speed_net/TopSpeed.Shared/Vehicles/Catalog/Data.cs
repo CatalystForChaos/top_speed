@@ -42,6 +42,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.96f, massSensitivity: 0.68f, downforceGripGain: 0.09f,
                 cornerStiffnessFront: 1.15f, cornerStiffnessRear: 1.08f, yawInertiaScale: 1.20f, steeringCurve: 1.06f, transientDamping: 1.35f,
                 torqueCurvePreset: "sport_coupe",
+                cgHeightM: 0.48f,
                 transmissionPolicy: Policy(5, true, Auto6Upshifts, upshiftRpmFraction: 0.88f)),
 
             new OfficialVehicleSpec(
@@ -62,6 +63,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.98f, massSensitivity: 0.66f, downforceGripGain: 0.11f,
                 cornerStiffnessFront: 1.20f, cornerStiffnessRear: 1.12f, yawInertiaScale: 1.18f, steeringCurve: 1.05f, transientDamping: 1.35f,
                 torqueCurvePreset: "supercar_na",
+                cgHeightM: 0.45f,
                 transmissionPolicy: Policy(5, true, Auto7Upshifts, upshiftRpmFraction: 0.85f)),
 
             new OfficialVehicleSpec(
@@ -82,6 +84,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.72f, massSensitivity: 0.82f, downforceGripGain: 0.01f,
                 cornerStiffnessFront: 0.92f, cornerStiffnessRear: 0.90f, yawInertiaScale: 1.36f, steeringCurve: 1.24f, transientDamping: 2.20f,
                 torqueCurvePreset: "city_compact",
+                cgHeightM: 0.62f,
                 transmissionPolicy: Policy(4, true, upshiftRpmFraction: 0.84f)),
 
             new OfficialVehicleSpec(
@@ -102,6 +105,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.76f, massSensitivity: 0.78f, downforceGripGain: 0.03f,
                 cornerStiffnessFront: 0.98f, cornerStiffnessRear: 0.95f, yawInertiaScale: 1.32f, steeringCurve: 1.20f, transientDamping: 2.05f,
                 torqueCurvePreset: "hot_hatch",
+                cgHeightM: 0.58f,
                 transmissionPolicy: Policy(5, true, Auto6Upshifts, upshiftRpmFraction: 0.86f)),
 
             new OfficialVehicleSpec(
@@ -122,6 +126,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.72f, massSensitivity: 0.80f, downforceGripGain: 0.02f,
                 cornerStiffnessFront: 0.95f, cornerStiffnessRear: 0.90f, yawInertiaScale: 1.42f, steeringCurve: 1.24f, transientDamping: 2.25f,
                 torqueCurvePreset: "muscle_v8",
+                cgHeightM: 0.53f,
                 transmissionPolicy: Policy(4, false, upshiftRpmFraction: 0.84f)),
 
             new OfficialVehicleSpec(
@@ -142,6 +147,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.70f, massSensitivity: 0.86f, downforceGripGain: 0.01f,
                 cornerStiffnessFront: 0.90f, cornerStiffnessRear: 0.86f, yawInertiaScale: 1.46f, steeringCurve: 1.30f, transientDamping: 2.40f,
                 torqueCurvePreset: "family_sedan",
+                cgHeightM: 0.56f,
                 transmissionPolicy: Policy(6, true, Auto8Upshifts, upshiftRpmFraction: 0.84f, minUpshiftNetAccelerationMps2: -0.12f)),
 
             new OfficialVehicleSpec(
@@ -162,6 +168,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.94f, massSensitivity: 0.56f, downforceGripGain: 0.30f,
                 cornerStiffnessFront: 1.18f, cornerStiffnessRear: 1.10f, yawInertiaScale: 1.24f, steeringCurve: 1.05f, transientDamping: 1.40f,
                 torqueCurvePreset: "supercar_na",
+                cgHeightM: 0.40f,
                 transmissionPolicy: Policy(5, true, Auto7Upshifts, upshiftRpmFraction: 0.90f)),
 
             new OfficialVehicleSpec(
@@ -182,6 +189,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.74f, massSensitivity: 0.75f, downforceGripGain: 0.05f,
                 cornerStiffnessFront: 0.98f, cornerStiffnessRear: 0.93f, yawInertiaScale: 1.38f, steeringCurve: 1.24f, transientDamping: 2.10f,
                 torqueCurvePreset: "sport_sedan",
+                cgHeightM: 0.51f,
                 transmissionPolicy: Policy(6, true, Auto8Upshifts, upshiftRpmFraction: 0.80f, minUpshiftNetAccelerationMps2: -0.20f)),
 
             new OfficialVehicleSpec(
@@ -202,6 +210,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.56f, massSensitivity: 0.98f, downforceGripGain: 0.01f,
                 cornerStiffnessFront: 0.74f, cornerStiffnessRear: 0.66f, yawInertiaScale: 1.74f, steeringCurve: 1.32f, transientDamping: 2.90f,
                 torqueCurvePreset: "diesel_truck",
+                cgHeightM: 0.82f,
                 transmissionPolicy: Policy(5, true, Auto7Upshifts, upshiftRpmFraction: 0.72f, minUpshiftNetAccelerationMps2: -0.30f)),
 
             new OfficialVehicleSpec(
@@ -222,6 +231,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.96f, massSensitivity: 0.96f, downforceGripGain: 0.03f,
                 cornerStiffnessFront: 1.46f, cornerStiffnessRear: 0.96f, yawInertiaScale: 1.08f, steeringCurve: 1.05f, transientDamping: 1.40f,
                 torqueCurvePreset: "supersport_bike",
+                cgHeightM: 0.62f,
                 transmissionPolicy: Policy(6, false, upshiftRpmFraction: 0.90f)),
 
             new OfficialVehicleSpec(
@@ -242,6 +252,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.94f, massSensitivity: 0.95f, downforceGripGain: 0.03f,
                 cornerStiffnessFront: 1.42f, cornerStiffnessRear: 0.98f, yawInertiaScale: 1.06f, steeringCurve: 1.06f, transientDamping: 1.38f,
                 torqueCurvePreset: "supersport_bike",
+                cgHeightM: 0.61f,
                 transmissionPolicy: Policy(5, true, Auto6Upshifts, upshiftRpmFraction: 0.90f)),
 
             new OfficialVehicleSpec(
@@ -262,6 +273,7 @@ namespace TopSpeed.Vehicles
                 turnResponse: 0.95f, massSensitivity: 0.95f, downforceGripGain: 0.03f,
                 cornerStiffnessFront: 1.44f, cornerStiffnessRear: 0.95f, yawInertiaScale: 1.08f, steeringCurve: 1.05f, transientDamping: 1.40f,
                 torqueCurvePreset: "supersport_bike",
+                cgHeightM: 0.62f,
                 transmissionPolicy: Policy(5, true, Auto6Upshifts, upshiftRpmFraction: 0.88f))
         };
 

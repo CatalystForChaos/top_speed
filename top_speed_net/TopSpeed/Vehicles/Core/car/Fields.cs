@@ -103,6 +103,7 @@ namespace TopSpeed.Vehicles
         private float _yawInertiaScale;
         private float _steeringCurve;
         private float _transientDamping;
+        private float _cgHeightM;
         private float _widthM;
         private float _lengthM;
         private int _idleFreq;

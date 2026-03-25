@@ -75,7 +75,8 @@ namespace TopSpeed.Bots
                 spec.Gears,
                 torqueCurve,
                 spec.GearRatios,
-                spec.TransmissionPolicy);
+                spec.TransmissionPolicy,
+                cgHeightM: spec.CgHeightM);
         }
 
         private static CurveProfile BuildTorqueCurve(OfficialVehicleSpec spec)

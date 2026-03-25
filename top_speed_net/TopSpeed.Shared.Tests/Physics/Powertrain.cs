@@ -100,6 +100,25 @@ namespace TopSpeed.Shared.Tests.Physics
                 "Rolling resistance must be higher at speed than at standstill.");
         }
 
+        // Engine friction must reduce engine braking torque, just as it reduces drive torque.
+        [Fact]
+        public void EngineBrakeDecel_IsReducedBy_EngineFriction()
+        {
+            var noFriction = BuildConfigurationWithFriction(0f);
+            var withFriction = BuildConfigurationWithFriction(200f);
+
+            var decelNoFriction = Calculator.EngineBrakeDecelKph(
+                noFriction, gear: 3, inReverse: false, speedMps: 35f,
+                surfaceDecelerationModifier: 1f, currentEngineRpm: 4500f);
+
+            var decelWithFriction = Calculator.EngineBrakeDecelKph(
+                withFriction, gear: 3, inReverse: false, speedMps: 35f,
+                surfaceDecelerationModifier: 1f, currentEngineRpm: 4500f);
+
+            Assert.True(decelNoFriction > decelWithFriction,
+                "Higher engine friction torque must reduce engine braking deceleration.");
+        }
+
         private static Config BuildConfiguration() => BuildConfigurationWithFriction(20f);
 
         private static Config BuildConfigurationWithFriction(float engineFrictionTorqueNm)

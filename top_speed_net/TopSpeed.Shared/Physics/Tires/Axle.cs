@@ -34,7 +34,9 @@ namespace TopSpeed.Physics.Tires
             var vehicleLength = Math.Max(wheelbase + 0.1f, parameters.VehicleLengthM);
 
             var frontStaticLoad = 0.5f + (((vehicleLength - wheelbase) / vehicleLength) * 0.10f);
-            frontStaticLoad = TireModelMath.Clamp(frontStaticLoad, 0.42f, 0.60f);
+            // Range [0.35, 0.65]: covers rear-biased sports cars (0.35) through
+            // front-motor vans (0.65). The previous [0.42, 0.60] was too narrow.
+            frontStaticLoad = TireModelMath.Clamp(frontStaticLoad, 0.35f, 0.65f);
             var rearStaticLoad = 1f - frontStaticLoad;
 
             var a = wheelbase * rearStaticLoad;
@@ -53,7 +55,9 @@ namespace TopSpeed.Physics.Tires
             var rearForce = cornerRear * rearSlipEff;
 
             var latAccelEstimate = Math.Abs(state.YawRateRad * steer.ForwardSpeed);
-            var loadTransfer = TireModelMath.Clamp01((latAccelEstimate / TireModelConstants.Gravity) * (0.55f / trackWidth));
+            // Load transfer coefficient = CgHeight / (2 × trackWidth).
+            // Derived from vehicle-specific CoG height; default 0.55 m matches a mid-size car.
+            var loadTransfer = TireModelMath.Clamp01((latAccelEstimate / TireModelConstants.Gravity) * (parameters.CgHeightM / trackWidth));
             var frontLimit = grip.GripForce * frontStaticLoad * (1f - (0.25f * loadTransfer));
             var rearLimit = grip.GripForce * rearStaticLoad * (1f - (0.50f * loadTransfer));
             frontLimit = Math.Max(0.05f * grip.GripForce, frontLimit);

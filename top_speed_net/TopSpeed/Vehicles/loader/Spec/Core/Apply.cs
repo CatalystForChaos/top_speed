@@ -57,6 +57,7 @@ namespace TopSpeed.Vehicles.Loader
             def.YawInertiaScale = spec.YawInertiaScale;
             def.SteeringCurve = spec.SteeringCurve;
             def.TransientDamping = spec.TransientDamping;
+            def.CgHeightM = spec.CgHeightM;
             def.WidthM = spec.WidthM;
             def.LengthM = spec.LengthM;
             def.PowerFactor = spec.PowerFactor;

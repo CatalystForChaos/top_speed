@@ -25,7 +25,11 @@ namespace TopSpeed.Collision
             var overflow = Math.Abs(predictedX - targetX);
             var wallSpan = Math.Max(Epsilon, wallRightM - wallLeftM);
             var wallDepth = Clamp01(overflow / Math.Max(0.25f, Math.Min(body.WidthM * 0.5f, wallSpan * 0.5f)));
-            var severity = Clamp01(response.ImpactSeverity + (0.35f * wallDepth));
+            // Kinetic energy ∝ v² — wall impact at double speed is four times as destructive.
+            // Quadratic scaling means low-speed scrapes are far less severe than high-speed impacts.
+            var speedRatio = response.RelativeSpeedKph / 100f;
+            var speedSeverity = Clamp01(speedRatio * speedRatio);
+            var severity = Clamp01(speedSeverity + (0.35f * wallDepth));
             var crashLike = severity >= 0.70f && response.RelativeSpeedKph >= 70f;
 
             var constrainedBumpX = (targetX - body.PositionX) * 0.5f;

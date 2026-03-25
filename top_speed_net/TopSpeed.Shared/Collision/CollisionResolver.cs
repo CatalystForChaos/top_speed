@@ -29,8 +29,14 @@ namespace TopSpeed.Collision
             if (xOverlap <= 0f || yOverlap <= 0f)
                 return false;
 
-            var firstMassEffect = second.MassKg / (first.MassKg + second.MassKg);
-            var secondMassEffect = first.MassKg / (first.MassKg + second.MassKg);
+            // Reduced mass μ = m1*m2/(m1+m2) ensures impulse-based momentum conservation:
+            // J = μ × Δv_rel × restitutionFactor
+            // Δv1 = J/m1 = (m2/(m1+m2)) × Δv_rel × factor  (heavier vehicle changes less)
+            // Δv2 = J/m2 = (m1/(m1+m2)) × Δv_rel × factor
+            var totalMass = first.MassKg + second.MassKg;
+            var firstMassEffect = second.MassKg / totalMass;
+            var secondMassEffect = first.MassKg / totalMass;
+            var reducedMass = (first.MassKg * second.MassKg) / totalMass;
 
             var speedDiff = first.SpeedKph - second.SpeedKph;
             var firstRearClosing = dy < 0f && speedDiff > 0f;
@@ -43,9 +49,13 @@ namespace TopSpeed.Collision
 
             var severity = Clamp01(closingSpeed / 70f);
             var exchangeFactor = longitudinalContact ? 0.78f : 0.32f;
-            var exchangeSpeed = closingSpeed * exchangeFactor * (0.40f + (0.60f * severity));
-            if (exchangeSpeed > MaxTransferKph)
-                exchangeSpeed = MaxTransferKph;
+            // Impulse magnitude (unit: kph·kg) — capped via reduced mass so per-vehicle Δv
+            // stays within MaxTransferKph for any mass ratio.
+            var restitutionFactor = exchangeFactor * (0.40f + (0.60f * severity));
+            var impulse = reducedMass * closingSpeed * restitutionFactor;
+            var maxImpulse = reducedMass * MaxTransferKph;
+            if (impulse > maxImpulse)
+                impulse = maxImpulse;
 
             var lateralBase = xOverlap * (longitudinalContact ? 0.55f : 0.80f);
             var lateralImpact = (closingSpeed / 120f) * (longitudinalContact ? 0.55f : 0.35f);
@@ -60,20 +70,21 @@ namespace TopSpeed.Collision
 
             if (firstRearClosing)
             {
-                firstDelta -= exchangeSpeed * firstMassEffect;
-                secondDelta += exchangeSpeed * secondMassEffect;
+                firstDelta -= impulse / first.MassKg;
+                secondDelta += impulse / second.MassKg;
             }
             else if (secondRearClosing)
             {
-                secondDelta -= exchangeSpeed * secondMassEffect;
-                firstDelta += exchangeSpeed * firstMassEffect;
+                secondDelta -= impulse / second.MassKg;
+                firstDelta += impulse / first.MassKg;
             }
 
-            var sideScrub = (lateralMagnitude * (longitudinalContact ? 1.1f : 1.8f))
+            // Side scrub: equal and opposite contact force → deceleration ∝ 1/mass.
+            var sideScrubForce = (lateralMagnitude * (longitudinalContact ? 1.1f : 1.8f))
                 + (longitudinalMagnitude * 0.2f)
                 + (closingSpeed * (longitudinalContact ? 0.035f : 0.02f));
-            firstDelta -= sideScrub * firstMassEffect;
-            secondDelta -= sideScrub * secondMassEffect;
+            firstDelta -= sideScrubForce * firstMassEffect;
+            secondDelta -= sideScrubForce * secondMassEffect;
 
             if (firstDelta < -first.SpeedKph)
                 firstDelta = -first.SpeedKph;

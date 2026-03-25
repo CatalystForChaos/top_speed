@@ -74,6 +74,7 @@ namespace TopSpeed.Vehicles
         public float YawInertiaScale { get; set; } = 1.0f;
         public float SteeringCurve { get; set; } = 1.0f;
         public float TransientDamping { get; set; } = 1.0f;
+        public float CgHeightM { get; set; } = 0.55f;
         public float WidthM { get; set; } = 1.8f;
         public float LengthM { get; set; } = 4.5f;
         

@@ -29,7 +29,8 @@ namespace TopSpeed.Bots
                 config.CornerStiffnessRear,
                 config.YawInertiaScale,
                 config.SteeringCurve,
-                config.TransientDamping);
+                config.TransientDamping,
+                config.CgHeightM);
         }
 
         private static TireModelOutput SolveTireModel(BotPhysicsConfig config, float elapsed, float speedMps, int steeringInput, float surfaceTractionMod, float lateralMultiplier, in TireModelState state)

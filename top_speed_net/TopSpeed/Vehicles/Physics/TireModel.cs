@@ -29,7 +29,8 @@ namespace TopSpeed.Vehicles
                 _cornerStiffnessRear,
                 _yawInertiaScale,
                 _steeringCurve,
-                _transientDamping);
+                _transientDamping,
+                _cgHeightM);
         }
 
         private TireModelOutput SolveTireModel(float elapsed, float speedMps, int steeringInput, float surfaceTractionMod, float lateralMultiplier, bool commitState = true)

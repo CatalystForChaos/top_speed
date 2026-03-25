@@ -8,7 +8,8 @@ namespace TopSpeed.Shared.Tests.Physics
         private static TireModelParameters BuildParameters(
             float massKg = 1500f,
             float highSpeedSteerGain = 1.2f,
-            float trackWidthM = 1.86f)
+            float trackWidthM = 1.86f,
+            float cgHeightM = 0.55f)
         {
             return new TireModelParameters(
                 steeringResponse: 1.8f,
@@ -33,7 +34,8 @@ namespace TopSpeed.Shared.Tests.Physics
                 cornerStiffnessRear: 0.95f,
                 yawInertiaScale: 1.0f,
                 steeringCurve: 1.1f,
-                transientDamping: 0.35f);
+                transientDamping: 0.35f,
+                cgHeightM: cgHeightM);
         }
 
         [Fact]
@@ -194,6 +196,24 @@ namespace TopSpeed.Shared.Tests.Physics
                 Assert.True(right.LateralSpeedMps > 0f);
                 Assert.True(left.LateralSpeedMps < 0f);
             }
+        }
+
+        // Higher CoG height increases lateral load transfer, reducing grip at the limit.
+        // A vehicle with a van-like CoG (0.82 m) should exhibit more lateral speed
+        // in the same cornering scenario than a sports-car CoG (0.40 m).
+        [Fact]
+        public void Solve_HigherCgHeight_IncreasesLateralResponse()
+        {
+            var lowCog  = BuildParameters(trackWidthM: 1.86f, cgHeightM: 0.40f);
+            var highCog = BuildParameters(trackWidthM: 1.86f, cgHeightM: 0.82f);
+            var input = new TireModelInput(elapsedSeconds: 1f / 60f, speedMps: 50f, steeringInput: 50, surfaceTractionMod: 1f, surfaceLateralMultiplier: 1f);
+            var state = new TireModelState(lateralVelocityMps: 0f, yawRateRad: 0f);
+
+            var lowCogResult  = TireModelSolver.Solve(lowCog,  input, state);
+            var highCogResult = TireModelSolver.Solve(highCog, input, state);
+
+            Assert.True(System.Math.Abs(highCogResult.LateralSpeedMps) > System.Math.Abs(lowCogResult.LateralSpeedMps),
+                "Higher CoG must increase lateral response due to greater load transfer.");
         }
 
     }

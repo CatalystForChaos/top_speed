@@ -187,7 +187,8 @@ namespace TopSpeed.Vehicles
                 _gears,
                 torqueCurve,
                 definition.GearRatios,
-                definition.TransmissionPolicy);
+                definition.TransmissionPolicy,
+                cgHeightM: definition.CgHeightM);
 
             _soundEngine = CreateRequiredSound(definition.GetSoundPath(VehicleAction.Engine), "engine", looped: true);
             _soundStart = CreateRequiredSound(definition.GetSoundPath(VehicleAction.Start), "start");

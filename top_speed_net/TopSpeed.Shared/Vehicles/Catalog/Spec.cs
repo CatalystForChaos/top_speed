@@ -67,7 +67,8 @@ namespace TopSpeed.Vehicles
             float[]? torqueCurveRpm = null,
             float[]? torqueCurveTorqueNm = null,
             string? torqueCurvePreset = null,
-            TransmissionPolicy? transmissionPolicy = null)
+            TransmissionPolicy? transmissionPolicy = null,
+            float cgHeightM = 0.55f)
         {
             CarType = carType;
             Name = name;
@@ -132,6 +133,7 @@ namespace TopSpeed.Vehicles
             TorqueCurveTorqueNm = torqueCurveTorqueNm;
             TorqueCurvePreset = torqueCurvePreset;
             TransmissionPolicy = transmissionPolicy ?? TransmissionPolicy.Default;
+            CgHeightM = cgHeightM > 0f ? cgHeightM : 0.55f;
         }
 
         public CarType CarType { get; }
@@ -197,5 +199,6 @@ namespace TopSpeed.Vehicles
         public float[]? TorqueCurveTorqueNm { get; }
         public string? TorqueCurvePreset { get; }
         public TransmissionPolicy TransmissionPolicy { get; }
+        public float CgHeightM { get; }
     }
 }
